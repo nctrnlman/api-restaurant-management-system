@@ -8,7 +8,7 @@ const register = async (req, res) => {
     res.sendResponse(
       "success",
       "User registered successfully",
-      { id: user.id, name: user.name, email: user.email },
+      user,
       null,
       201
     );

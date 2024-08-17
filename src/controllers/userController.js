@@ -86,9 +86,28 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const getUserByToken = async (req, res) => {
+  try {
+    const user = await userService.getUserById(req.userId);
+    if (!user) {
+      return res.sendResponse("error", "User not found", null, null, 404);
+    }
+    res.sendResponse("success", "User retrieved successfully", user, null, 200);
+  } catch (error) {
+    res.sendResponse(
+      "error",
+      "Failed to retrieve user",
+      null,
+      [error.message],
+      500
+    );
+  }
+};
+
 module.exports = {
   getUsers,
   getUser,
   updateUser,
   deleteUser,
+  getUserByToken,
 };

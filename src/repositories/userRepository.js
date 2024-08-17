@@ -14,7 +14,9 @@ const findUserById = async (id) => {
 };
 
 const findAllUsers = async () => {
-  return await User.findAll();
+  return await User.findAll({
+    order: [["name", "ASC"]],
+  });
 };
 
 const updateUser = async (id, userData) => {
