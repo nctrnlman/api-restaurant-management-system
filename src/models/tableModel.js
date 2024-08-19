@@ -1,19 +1,15 @@
 module.exports = (sequelize, DataTypes) => {
-  const Category = sequelize.define(
-    "Category",
+  const Table = sequelize.define(
+    "Table",
     {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
       },
-      category_name: {
+      table_name: {
         type: DataTypes.STRING,
         allowNull: false,
-      },
-      category_image: {
-        type: DataTypes.TEXT,
-        allowNull: true,
       },
     },
     {
@@ -21,11 +17,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Category.associate = (models) => {
-    Category.hasMany(models.Product, {
-      foreignKey: "category_id",
+  Table.associate = function (models) {
+    Table.hasMany(models.Reservation, {
+      foreignKey: "table_id",
+      as: "reservations",
     });
   };
 
-  return Category;
+  return Table;
 };

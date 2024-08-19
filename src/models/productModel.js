@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       product_price: {
-        type: DataTypes.FLOAT,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       category_id: {
