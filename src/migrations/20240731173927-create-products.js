@@ -29,8 +29,8 @@ module.exports = {
         allowNull: true,
       },
       product_image: {
-        type: Sequelize.STRING,
-        allowNull: true, // Optional
+        type: Sequelize.TEXT,
+        allowNull: true,
       },
       createdAt: {
         type: Sequelize.DATE,
