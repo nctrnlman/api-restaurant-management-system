@@ -44,6 +44,12 @@
    npx sequelize-cli seed:generate --name demo-users --config src/config/config.js --seeders-path src/seeders
    ```
 
+   Untuk menjalankan file seeder tertentu, jalankan perintah berikut:
+
+   ```bash
+   npx sequelize-cli db:seed --config src/config/config.js --seeders-path src/seeders --seed 20230820123456-add-products.js
+   ```
+
 4. **Rollback Semua Migrasi**
    Untuk membatalkan semua migrasi yang diterapkan, jalankan:
 

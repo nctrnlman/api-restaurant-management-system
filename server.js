@@ -7,6 +7,7 @@ const productRoutes = require("./src/routes/productRoutes");
 const categoryRoutes = require("./src/routes/categoryRoutes");
 const tableRoutes = require("./src/routes/tableRoutes");
 const reservationRoutes = require("./src/routes/reservationRoutes");
+const orderRoutes = require("./src/routes/orderRoutes");
 const db = require("./src/models");
 const formatResponse = require("./src/utils/responseHandler");
 
@@ -24,6 +25,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/tables", tableRoutes);
 app.use("/api/reservations", reservationRoutes);
+app.use("/api/orders", orderRoutes);
 
 const PORT = process.env.PORT || 8000;
 
