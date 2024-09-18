@@ -6,7 +6,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      reservation_id: {
+      table_id: {
+        // Changed from reservation_id to table_id
         type: DataTypes.INTEGER,
         allowNull: true,
       },
@@ -24,9 +25,10 @@ module.exports = (sequelize, DataTypes) => {
 
   Order.associate = function (models) {
     Order.belongsTo(models.User, { foreignKey: "user_id", as: "user" });
-    Order.belongsTo(models.Reservation, {
-      foreignKey: "reservation_id",
-      as: "reservation",
+    Order.belongsTo(models.Table, {
+      // Changed from Reservation to Table
+      foreignKey: "table_id",
+      as: "table",
     });
     Order.hasMany(models.OrderDetail, {
       foreignKey: "order_id",

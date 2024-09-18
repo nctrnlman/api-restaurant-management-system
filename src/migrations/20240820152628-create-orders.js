@@ -16,11 +16,11 @@ module.exports = {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
-      reservation_id: {
+      table_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
         references: {
-          model: "Reservations",
+          model: "Tables",
           key: "id",
         },
         onUpdate: "CASCADE",

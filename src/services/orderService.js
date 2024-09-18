@@ -2,36 +2,7 @@ const orderRepository = require("../repositories/orderRepository");
 const orderDetailRepository = require("../repositories/orderDetailRepository");
 
 const createOrder = async (user_id, orderData) => {
-  const { reservation_id = null, items } = orderData;
-
-  if (!items || items.length === 0) {
-    throw new Error("Order items are required");
-  }
-
-  const total_price = items
-    .reduce(
-      (total, item) => total + item.quantity * parseInt(item.product_price),
-      0
-    )
-    .toString();
-
-  const order = await orderRepository.createOrder({
-    user_id,
-    total_price,
-    status: "completed",
-    reservation_id,
-  });
-
-  for (const item of items) {
-    await orderDetailRepository.createOrderDetail({
-      order_id: order.id,
-      product_id: item.product_id,
-      quantity: item.quantity,
-      product_price: item.product_price,
-    });
-  }
-
-  return order;
+  return await orderRepository.createOrder(user_id, orderData);
 };
 
 const getAllOrders = async () => {

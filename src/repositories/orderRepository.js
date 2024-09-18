@@ -1,7 +1,60 @@
-const { Order, OrderDetail, Reservation, Product } = require("../models");
+const {
+  Order,
+  OrderDetail,
+  Reservation,
+  Product,
+  Table,
+  User,
+} = require("../models");
+const orderDetailRepository = require("./orderDetailRepository");
 
-const createOrder = async (orderData) => {
-  return await Order.create(orderData);
+const createOrder = async (user_id, orderData) => {
+  const { table_id, items } = orderData;
+
+  if (!items || items.length === 0) {
+    throw new Error("Order items are required");
+  }
+
+  const existingReservation = await Reservation.findOne({
+    where: { table_id },
+    order: [["createdAt", "DESC"]],
+  });
+
+  if (existingReservation.dataValues.status !== "available") {
+    throw new Error("Table is already reserved. Please choose another table.");
+  }
+
+  const newReservation = await Reservation.create({
+    table_id,
+    customer_name: "customer",
+    status: "reserved",
+    pax: 1,
+  });
+
+  const total_price = items
+    .reduce(
+      (total, item) => total + item.quantity * parseInt(item.product_price),
+      0
+    )
+    .toString();
+
+  const order = await Order.create({
+    user_id,
+    total_price,
+    status: "pending",
+    table_id,
+  });
+
+  for (const item of items) {
+    await orderDetailRepository.createOrderDetail({
+      order_id: order.id,
+      product_id: item.product_id,
+      quantity: item.quantity,
+      product_price: item.product_price,
+    });
+  }
+
+  return order;
 };
 
 const findAllOrders = async () => {
@@ -10,9 +63,21 @@ const findAllOrders = async () => {
       {
         model: OrderDetail,
         as: "orderDetails",
-        include: [{ model: Product, as: "product" }],
+        include: [
+          {
+            model: Product,
+            as: "product",
+          },
+        ],
       },
-      { model: Reservation, as: "reservation" },
+      {
+        model: Table,
+        as: "table",
+      },
+      {
+        model: User,
+        as: "user",
+      },
     ],
   });
 };
@@ -25,7 +90,10 @@ const findOrderById = async (id) => {
         as: "orderDetails",
         include: [{ model: Product, as: "product" }],
       },
-      { model: Reservation, as: "reservation" },
+      {
+        model: Table,
+        as: "table",
+      },
     ],
   });
 };

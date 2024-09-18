@@ -2,10 +2,10 @@ const orderService = require("../services/orderService");
 
 const createOrder = async (req, res) => {
   try {
-    const { reservation_id, items } = req.body;
+    const { table_id, items } = req.body;
     const user_id = req.userId;
     const order = await orderService.createOrder(user_id, {
-      reservation_id,
+      table_id,
       items,
     });
     res.sendResponse("success", "Order created successfully", order, null, 201);
