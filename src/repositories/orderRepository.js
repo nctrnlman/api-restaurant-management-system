@@ -15,21 +15,21 @@ const createOrder = async (user_id, orderData) => {
     throw new Error("Order items are required");
   }
 
-  const existingReservation = await Reservation.findOne({
-    where: { table_id },
-    order: [["createdAt", "DESC"]],
-  });
+  // const existingReservation = await Reservation.findOne({
+  //   where: { table_id },
+  //   order: [["createdAt", "DESC"]],
+  // });
 
-  if (existingReservation.dataValues.status !== "available") {
-    throw new Error("Table is already reserved. Please choose another table.");
-  }
+  // if (existingReservation.dataValues.status !== "available") {
+  //   throw new Error("Table is already reserved. Please choose another table.");
+  // }
 
-  const newReservation = await Reservation.create({
-    table_id,
-    customer_name: "customer",
-    status: "reserved",
-    pax: 1,
-  });
+  // const newReservation = await Reservation.create({
+  //   table_id,
+  //   customer_name: "customer",
+  //   status: "reserved",
+  //   pax: 1,
+  // });
 
   const total_price = items
     .reduce(
@@ -41,7 +41,7 @@ const createOrder = async (user_id, orderData) => {
   const order = await Order.create({
     user_id,
     total_price,
-    status: "pending",
+    status: "completed",
     table_id,
   });
 
@@ -79,6 +79,7 @@ const findAllOrders = async () => {
         as: "user",
       },
     ],
+    order: [["createdAt", "DESC"]],
   });
 };
 
@@ -93,6 +94,10 @@ const findOrderById = async (id) => {
       {
         model: Table,
         as: "table",
+      },
+      {
+        model: User,
+        as: "user",
       },
     ],
   });
