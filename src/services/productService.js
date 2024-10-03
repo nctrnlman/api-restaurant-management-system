@@ -1,6 +1,7 @@
 const productRepository = require("../repositories/productRepository");
 
-const getProducts = () => productRepository.getAllProducts();
+const getProducts = (categoryId, search) =>
+  productRepository.getAllProducts(categoryId, search);
 
 const getProduct = (id) => productRepository.getProductById(id);
 

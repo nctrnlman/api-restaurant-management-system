@@ -1,18 +1,9 @@
-const db = require("../models");
-const Product = db.Product;
+const productService = require("../services/productService");
 
 const getProducts = async (req, res) => {
   try {
-    const { categoryId } = req.query;
-
-    const products = categoryId
-      ? await Product.findAll({
-          where: { category_id: categoryId },
-          include: ["Category"],
-        })
-      : await Product.findAll({
-          include: ["Category"],
-        });
+    const { categoryId, search } = req.query;
+    const products = await productService.getProducts(categoryId, search);
 
     res.sendResponse(
       "success",
@@ -34,9 +25,7 @@ const getProducts = async (req, res) => {
 
 const getProduct = async (req, res) => {
   try {
-    const product = await Product.findByPk(req.params.id, {
-      include: ["Category"],
-    });
+    const product = await productService.getProduct(req.params.id);
     if (product) {
       res.sendResponse(
         "success",
@@ -61,10 +50,17 @@ const getProduct = async (req, res) => {
 
 const createProduct = async (req, res) => {
   try {
-    const { product_name, product_price, category_id, description } = req.body;
-    const product = await Product.create({
+    const {
       product_name,
       product_price,
+      product_image,
+      category_id,
+      description,
+    } = req.body;
+    const product = await productService.createProduct({
+      product_name,
+      product_price,
+      product_image,
       category_id,
       description,
     });
@@ -89,15 +85,22 @@ const createProduct = async (req, res) => {
 const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const { product_name, product_price, category_id, description } = req.body;
+    const {
+      product_name,
+      product_price,
+      product_image,
+      category_id,
+      description,
+    } = req.body;
 
-    const product = await Product.findByPk(id);
+    const product = await productService.updateProduct(id, {
+      product_name,
+      product_price,
+      product_image,
+      category_id,
+      description,
+    });
     if (product) {
-      product.product_name = product_name || product.product_name;
-      product.product_price = product_price || product.product_price;
-      product.category_id = category_id || product.category_id;
-      product.description = description || product.description;
-      await product.save();
       res.sendResponse(
         "success",
         "Product updated successfully",
@@ -121,9 +124,8 @@ const updateProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   try {
-    const product = await Product.findByPk(req.params.id);
+    const product = await productService.deleteProduct(req.params.id);
     if (product) {
-      await product.destroy();
       res.sendResponse(
         "success",
         "Product deleted successfully",
