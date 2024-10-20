@@ -1,8 +1,10 @@
 const productService = require("../services/productService");
 
+// Fungsi untuk mengambil produk berdasarkan query
 const getProducts = async (req, res) => {
   try {
-    const { categoryId, search } = req.query;
+    const { categoryId, search } = req.query; // Mengambil parameter query
+    // Mengambil produk berdasarkan kategori dan pencarian
     const products = await productService.getProducts(categoryId, search);
 
     res.sendResponse(
@@ -23,8 +25,10 @@ const getProducts = async (req, res) => {
   }
 };
 
+// Fungsi untuk mengambil produk berdasarkan ID
 const getProduct = async (req, res) => {
   try {
+    // Mengambil produk berdasarkan ID dari parameter request
     const product = await productService.getProduct(req.params.id);
     if (product) {
       res.sendResponse(
@@ -48,8 +52,10 @@ const getProduct = async (req, res) => {
   }
 };
 
+// Fungsi untuk membuat produk baru
 const createProduct = async (req, res) => {
   try {
+    // Mengambil data produk dari body request
     const {
       product_name,
       product_price,
@@ -57,6 +63,8 @@ const createProduct = async (req, res) => {
       category_id,
       description,
     } = req.body;
+
+    // Menggunakan productService untuk membuat produk baru
     const product = await productService.createProduct({
       product_name,
       product_price,
@@ -82,9 +90,11 @@ const createProduct = async (req, res) => {
   }
 };
 
+// Fungsi untuk memperbarui produk yang sudah ada
 const updateProduct = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.params; // Mengambil ID dari parameter request
+    // Mengambil data produk dari body request
     const {
       product_name,
       product_price,
@@ -93,6 +103,7 @@ const updateProduct = async (req, res) => {
       description,
     } = req.body;
 
+    // Memperbarui produk dengan ID dan data baru
     const product = await productService.updateProduct(id, {
       product_name,
       product_price,
@@ -122,8 +133,10 @@ const updateProduct = async (req, res) => {
   }
 };
 
+// Fungsi untuk menghapus produk berdasarkan ID
 const deleteProduct = async (req, res) => {
   try {
+    // Menghapus produk berdasarkan ID
     const product = await productService.deleteProduct(req.params.id);
     if (product) {
       res.sendResponse(

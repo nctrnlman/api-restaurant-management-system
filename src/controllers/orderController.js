@@ -1,9 +1,13 @@
 const orderService = require("../services/orderService");
 
+// Fungsi untuk membuat pesanan baru
 const createOrder = async (req, res) => {
   try {
+    // Mengambil table_id dan items dari body request
     const { table_id, items } = req.body;
-    const user_id = req.userId;
+    const user_id = req.userId; // Mengambil user_id dari token autentikasi
+
+    // Menggunakan orderService untuk membuat pesanan
     const order = await orderService.createOrder(user_id, {
       table_id,
       items,
@@ -14,8 +18,10 @@ const createOrder = async (req, res) => {
   }
 };
 
+// Fungsi untuk mengambil semua pesanan
 const getAllOrders = async (req, res) => {
   try {
+    // Mengambil semua pesanan dari orderService
     const orders = await orderService.getAllOrders();
     res.sendResponse("success", "Orders retrieved successfully", orders);
   } catch (error) {
@@ -23,8 +29,10 @@ const getAllOrders = async (req, res) => {
   }
 };
 
+// Fungsi untuk mengambil pesanan berdasarkan ID
 const getOrderById = async (req, res) => {
   try {
+    // Mengambil pesanan berdasarkan ID dari parameter request
     const order = await orderService.getOrderById(req.params.id);
     if (!order) {
       return res.sendResponse(
@@ -41,8 +49,10 @@ const getOrderById = async (req, res) => {
   }
 };
 
+// Fungsi untuk memperbarui pesanan
 const updateOrder = async (req, res) => {
   try {
+    // Memperbarui pesanan dengan ID dan body request
     const updatedOrder = await orderService.updateOrder(
       req.params.id,
       req.body
@@ -62,8 +72,10 @@ const updateOrder = async (req, res) => {
   }
 };
 
+// Fungsi untuk menghapus pesanan
 const deleteOrder = async (req, res) => {
   try {
+    // Menghapus pesanan berdasarkan ID
     const isDeleted = await orderService.deleteOrder(req.params.id);
     if (isDeleted) {
       res.sendResponse("success", "Order deleted successfully");

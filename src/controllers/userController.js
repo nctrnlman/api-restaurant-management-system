@@ -1,7 +1,9 @@
 const userService = require("../services/userService");
 
+// Fungsi untuk mengambil semua pengguna
 const getUsers = async (req, res) => {
   try {
+    // Mengambil semua pengguna dari userService
     const users = await userService.getAllUsers();
     res.sendResponse(
       "success",
@@ -21,8 +23,10 @@ const getUsers = async (req, res) => {
   }
 };
 
+// Fungsi untuk mengambil pengguna berdasarkan ID
 const getUser = async (req, res) => {
   try {
+    // Mengambil pengguna berdasarkan ID dari parameter request
     const user = await userService.getUserById(req.params.id);
     if (user) {
       res.sendResponse(
@@ -46,10 +50,13 @@ const getUser = async (req, res) => {
   }
 };
 
+// Fungsi untuk memperbarui pengguna yang sudah ada
 const updateUser = async (req, res) => {
   try {
+    // Mengambil ID dari parameter dan detail pengguna dari body request
     const { id } = req.params;
     const { name, email, password } = req.body;
+    // Memperbarui pengguna menggunakan userService
     const user = await userService.updateUser(id, name, email, password);
     if (user) {
       res.sendResponse("success", "User updated successfully", user, null, 200);
@@ -67,8 +74,10 @@ const updateUser = async (req, res) => {
   }
 };
 
+// Fungsi untuk menghapus pengguna berdasarkan ID
 const deleteUser = async (req, res) => {
   try {
+    // Menghapus pengguna berdasarkan ID
     const success = await userService.deleteUser(req.params.id);
     if (success) {
       res.sendResponse("success", "User deleted successfully", null, null, 200);
@@ -86,8 +95,10 @@ const deleteUser = async (req, res) => {
   }
 };
 
+// Fungsi untuk mengambil pengguna berdasarkan token
 const getUserByToken = async (req, res) => {
   try {
+    // Mengambil pengguna berdasarkan ID yang terdapat pada token
     const user = await userService.getUserById(req.userId);
     if (!user) {
       return res.sendResponse("error", "User not found", null, null, 404);

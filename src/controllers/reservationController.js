@@ -1,7 +1,9 @@
 const reservationService = require("../services/reservationService");
 
+// Fungsi untuk mengambil semua reservasi
 const getReservations = async (req, res) => {
   try {
+    // Mengambil semua reservasi dari reservationService
     const reservations = await reservationService.getAllReservations();
     res.sendResponse(
       "success",
@@ -21,8 +23,10 @@ const getReservations = async (req, res) => {
   }
 };
 
+// Fungsi untuk mengambil reservasi berdasarkan ID
 const getReservation = async (req, res) => {
   try {
+    // Mengambil reservasi berdasarkan ID dari parameter request
     const reservation = await reservationService.getReservationById(
       req.params.id
     );
@@ -54,8 +58,10 @@ const getReservation = async (req, res) => {
   }
 };
 
+// Fungsi untuk membuat reservasi baru
 const createReservation = async (req, res) => {
   try {
+    // Mengambil data reservasi dari body request
     const newReservation = await reservationService.createReservation(
       req.body.table_id,
       req.body.customer_name,
@@ -80,8 +86,10 @@ const createReservation = async (req, res) => {
   }
 };
 
+// Fungsi untuk memperbarui reservasi yang sudah ada
 const updateReservation = async (req, res) => {
   try {
+    // Memperbarui reservasi dengan ID dan data baru
     const updatedReservation = await reservationService.updateReservation(
       req.params.id,
       req.body.table_id,
@@ -117,8 +125,10 @@ const updateReservation = async (req, res) => {
   }
 };
 
+// Fungsi untuk menghapus reservasi berdasarkan ID
 const deleteReservation = async (req, res) => {
   try {
+    // Menghapus reservasi berdasarkan ID
     const isDeleted = await reservationService.deleteReservation(req.params.id);
     if (isDeleted) {
       res.sendResponse(
@@ -148,8 +158,10 @@ const deleteReservation = async (req, res) => {
   }
 };
 
+// Fungsi untuk mengubah status reservasi menjadi tersedia
 const makeAvailable = async (req, res) => {
   try {
+    // Mengupdate status reservasi menjadi 'available'
     const updatedReservation = await reservationService.updateReservationStatus(
       req.params.id,
       "available"
