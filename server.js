@@ -11,10 +11,12 @@ const orderRoutes = require("./src/routes/orderRoutes");
 const db = require("./src/models");
 const formatResponse = require("./src/utils/responseHandler");
 
+// Membuat instance aplikasi Express
 const app = express();
-app.use(cors());
-app.use(express.json());
-app.use(formatResponse);
+// Menggunakan middleware
+app.use(cors()); // Mengizinkan permintaan dari sumber lain
+app.use(express.json()); // Memungkinkan aplikasi untuk mem-parsing JSON dalam permintaan
+app.use(formatResponse); // Memformat respons agar konsisten
 
 // Public routes
 app.use("/api/auth", authRoutes);
@@ -27,8 +29,10 @@ app.use("/api/tables", tableRoutes);
 app.use("/api/reservations", reservationRoutes);
 app.use("/api/orders", orderRoutes);
 
+// Menentukan port untuk server
 const PORT = process.env.PORT || 8001;
 
+// Fungsi untuk memulai server
 const startServer = async () => {
   try {
     await db.sequelize.sync();

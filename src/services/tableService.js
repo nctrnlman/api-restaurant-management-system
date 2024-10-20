@@ -1,12 +1,15 @@
 const tableRepository = require("../repositories/tableRepository");
 const reservationRepository = require("../repositories/reservationRepository");
+
+// Membuat tabel baru
 const createTable = async (table_name) => {
   return await tableRepository.createTable({ table_name });
 };
-
+// Mengambil tabel berdasarkan ID
 const getTableById = async (id) => {
   return await tableRepository.findTableById(id);
 };
+// Mengambil semua tabel
 const getAllTables = async () => {
   const tables = await tableRepository.findAllTables();
 
@@ -33,10 +36,12 @@ const getAllTables = async () => {
   return tablesWithReservations;
 };
 
+// Memperbarui tabel berdasarkan ID
 const updateTable = async (id, table_name) => {
   return await tableRepository.updateTable(id, { table_name });
 };
 
+// Menghapus tabel berdasarkan ID
 const deleteTable = async (id) => {
   return await tableRepository.deleteTable(id);
 };

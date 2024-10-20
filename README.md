@@ -1,3 +1,7 @@
+# Resto Next Gen - Backend
+
+Proyek ini adalah aplikasi back-end untuk manajemen restoran modern bernama "D'Restaurnt". Aplikasi ini dikembangkan menggunakan Express.
+
 # Dokumentasi Proyek
 
 ## Setup dan Penggunaan

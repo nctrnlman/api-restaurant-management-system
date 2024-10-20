@@ -8,6 +8,7 @@ const {
 } = require("../models");
 const orderDetailRepository = require("./orderDetailRepository");
 
+// Fungsi untuk membuat pesanan baru
 const createOrder = async (user_id, orderData) => {
   const { table_id, items } = orderData;
 
@@ -31,6 +32,7 @@ const createOrder = async (user_id, orderData) => {
   //   pax: 1,
   // });
 
+  // Hitung total harga berdasarkan item dalam pesanan
   const total_price = items
     .reduce(
       (total, item) => total + item.quantity * parseInt(item.product_price),
@@ -57,6 +59,7 @@ const createOrder = async (user_id, orderData) => {
   return order;
 };
 
+// Fungsi untuk menemukan semua pesanan
 const findAllOrders = async () => {
   return await Order.findAll({
     include: [
@@ -83,6 +86,7 @@ const findAllOrders = async () => {
   });
 };
 
+// Fungsi untuk menemukan pesanan berdasarkan ID
 const findOrderById = async (id) => {
   return await Order.findByPk(id, {
     include: [
@@ -103,10 +107,12 @@ const findOrderById = async (id) => {
   });
 };
 
+// Fungsi untuk memperbarui pesanan
 const updateOrder = async (id, updateData) => {
   return await Order.update(updateData, { where: { id } });
 };
 
+// Fungsi untuk menghapus pesanan
 const deleteOrder = async (id) => {
   return await Order.destroy({ where: { id } });
 };
